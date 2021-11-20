@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useContext } from "react";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -7,6 +7,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import { appContext } from "../context/provider";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -28,7 +29,8 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-const TablaContactos = ({ data, deleteData, setDataToEdit }) => {
+const TablaContactos = () => {
+  const { contactos, deleteData, setDataToEdit } = useContext(appContext);
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
@@ -42,8 +44,8 @@ const TablaContactos = ({ data, deleteData, setDataToEdit }) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {data.length > 0 ? (
-            data.map((el) => (
+          {contactos.length > 0 ? (
+            contactos.map((el) => (
               <StyledTableRow key={el.id} el={el}>
                 <StyledTableCell component="th" scope="row">
                   {el.id}

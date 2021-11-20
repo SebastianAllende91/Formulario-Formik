@@ -1,13 +1,14 @@
 import Formulario from "./components/Formulario";
+import MyProvider from "./context/provider";
 
 function App() {
   return (
-    <div>
-      <h1>Crud</h1>
-      <section>
+    <MyProvider>
+      <div>
+        <h1>Crud</h1>
         <Formulario />
-      </section>
-    </div>
+      </div>
+    </MyProvider>
   );
 }
 

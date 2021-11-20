@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Formik } from "formik";
 import Container from "@mui/material/Container";
 import * as Yup from "yup";
+import { appContext } from "../context/provider";
 
 const RegisterSchema = Yup.object({
   nombre: Yup.string().required("Este campo es obligatorio"),
@@ -18,12 +19,10 @@ let initial = {
   telefono: "",
 };
 
-const CrudFormulario = ({
-  createData,
-  updateData,
-  dataToEdit,
-  setDataToEdit,
-}) => {
+const CrudFormulario = () => {
+  const { createData, updateData, dataToEdit, setDataToEdit } =
+    useContext(appContext);
+
   const [form, setForm] = useState(initial);
 
   useEffect(() => {
