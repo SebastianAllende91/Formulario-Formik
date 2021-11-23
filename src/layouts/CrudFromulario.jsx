@@ -1,8 +1,9 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { Formik } from "formik";
 import Container from "@mui/material/Container";
 import * as Yup from "yup";
 import { appContext } from "../context/provider";
+import { TYPES } from "../type/formularioAction";
 
 const RegisterSchema = Yup.object({
   nombre: Yup.string().required("Este campo es obligatorio"),
@@ -20,37 +21,26 @@ let initial = {
 };
 
 const CrudFormulario = () => {
-  const { createData, updateData, dataToEdit, setDataToEdit } =
-    useContext(appContext);
-
-  const [form, setForm] = useState(initial);
-
-  useEffect(() => {
-    if (dataToEdit) {
-      setForm({ ...form, dataToEdit });
-      console.log(form);
-    } else {
-      setForm(initial);
-      setDataToEdit(null);
-    }
-  }, [dataToEdit]);
+  const { dispatch } = useContext(appContext);
 
   return (
     <Container>
       <Formik
-        initialValues={form}
+        initialValues={initial}
         validationSchema={RegisterSchema}
-        // validateOnBlur
         validateOnSubmit
         onSubmit={(values, { setSubmitting, resetForm }) => {
           setTimeout(() => {
-            if (form.id === null) {
-              createData(values);
+            if (initial.id === null) {
+              values.id = Date.now();
+
+              dispatch({
+                type: TYPES.CREATE_DATA,
+                payload: values,
+              });
             } else {
-              updateData(form);
-              console.log(form);
+              dispatch({ type: TYPES.UPDATE_DATA, payload: values });
             }
-            // createData(values);
             resetForm();
 
             setSubmitting(false);
@@ -75,7 +65,6 @@ const CrudFormulario = () => {
                   placeholder="Ingrese su nombre..."
                   name="nombre"
                   onChange={handleChange("nombre")}
-                  //   onBlur={handleBlur("name")}
                   value={values.nombre}
                 />
                 {touched.nombre && errors.nombre && errors.nombre}
@@ -85,7 +74,6 @@ const CrudFormulario = () => {
                   placeholder="Ingrese su apellido..."
                   name="apellido"
                   onChange={handleChange("apellido")}
-                  //   onBlur={handleBlur("id")}
                   value={values.apellido}
                 />
                 {touched.apellido && errors.apellido && errors.apellido}
@@ -95,7 +83,6 @@ const CrudFormulario = () => {
                   placeholder="Ingrese su email"
                   name="email"
                   onChange={handleChange("email")}
-                  //   onBlur={handleBlur("phone")}
                   value={values.email}
                 />
                 {touched.email && errors.email && errors.email}
@@ -106,7 +93,6 @@ const CrudFormulario = () => {
                   name="telefono"
                   type="number"
                   onChange={handleChange("telefono")}
-                  //   onBlur={handleBlur("email")}
                   value={values.telefono}
                 />
                 {touched.telefono && errors.telefono && errors.telefono}

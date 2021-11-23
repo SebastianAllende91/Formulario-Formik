@@ -1,4 +1,4 @@
-import Formulario from "./components/Formulario";
+import Formulario from "./pages/Formulario";
 import MyProvider from "./context/provider";
 
 function App() {

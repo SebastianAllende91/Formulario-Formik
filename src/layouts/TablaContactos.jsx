@@ -8,6 +8,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { appContext } from "../context/provider";
+import { TYPES } from "../type/formularioAction";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -30,7 +31,8 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 const TablaContactos = () => {
-  const { contactos, deleteData, setDataToEdit } = useContext(appContext);
+  const { contactos, dispatch } = useContext(appContext);
+
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
@@ -49,8 +51,20 @@ const TablaContactos = () => {
               <StyledTableRow key={el.id} el={el}>
                 <StyledTableCell component="th" scope="row">
                   {el.id}
-                  <button onClick={() => deleteData(el.id)}>Eliminar</button>
-                  <button onClick={() => setDataToEdit(el)}>Editar</button>
+                  <button
+                    onClick={() =>
+                      dispatch({ type: TYPES.DELETE_DATA, id: el.id })
+                    }
+                  >
+                    Eliminar
+                  </button>
+                  <button
+                    onClick={() =>
+                      dispatch({ type: TYPES.UPDATE_DATA, el: el })
+                    }
+                  >
+                    Editar
+                  </button>
                 </StyledTableCell>
                 <StyledTableCell align="right">{el.nombre}</StyledTableCell>
                 <StyledTableCell align="right">{el.apellido}</StyledTableCell>
